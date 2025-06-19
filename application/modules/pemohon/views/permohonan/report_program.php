@@ -145,7 +145,7 @@
         <div class="report-title"><?= $title; ?></div>
     </div>
 
-    <h2>Maklumat Program</h2>
+    <!-- <h2>Maklumat Program</h2>
     <table class="info-table">
         <tr>
             <th>Nama Pemohon</th>
@@ -175,33 +175,67 @@
             <th>Tarikh Permohonan</th>
             <td></td>
         </tr>
-    </table>
+    </table> -->
 
-    <h2>Senarai Perkhidmatan</h2>
+    <h2>Senarai Program</h2>
+    <h4 style="font-style:italic">Jumlah Program yang telah dimohon setakat dicetak</h4>
     <table class="data-table">
         <thead>
             <tr>
-                <th>No</th>
-                <th>Nama Perkhidmatan</th>
-                <th>Harga (RM)</th>
                 <th>Status</th>
-                <th>Komen</th>
+                <th>Jumlah</th>
+            </tr>
+            <tr>
+                <td style="height:50px">Telah Disahkan</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td style="height:50px">Menunggu</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td style="height:50px">Dijalankan</td>
+                <td></td>
             </tr>
         </thead>
         <tbody>
 
     </table>
 
-    <h2>Senarai Cenderamata</h2>
+    <h2>Maklumat Penggunaan Perkhidmatan</h2>
     <table class="data-table">
         <thead>
             <tr>
-                <th>No</th>
-                <th>Nama Cenderamata</th>
-                <th>Kuantiti</th>
-                <th>Status</th>
-                <th>Komen</th>
+                <th style="width: 70%;">Nama Perkhidmatan</th>
+                <th style="width: 30%;">Jumlah</th>
             </tr>
+            <?php $number = 1;
+            foreach ($statistik_perkhidmatan as $list) { ?>
+                <tr>
+                    <td style="text-align:left"><?= $list->T03_NAMA_PERKHIDMATAN ?></td>
+                    <td><?= $list->TOTAL ?></td>
+                </tr>
+
+                <?php
+            } ?>
+
+        </thead>
+        <tbody>
+    </table>
+
+    <h2>Maklumat Penggunaan Cenderamata</h2>
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th style="width: 70%;">Nama Cenderamata</th>
+                <th style="width: 30%;">Jumlah</th>
+            </tr>
+            <?php foreach ($statistik_cenderamata as $list) { ?>
+                <tr>
+                    <td style="text-align:left"><?= $list->T04_CNAMA ?></td>
+                    <td><?= $list->TOTAL ?></td>
+                </tr>
+            <?php } ?>
         </thead>
         <tbody>
 
