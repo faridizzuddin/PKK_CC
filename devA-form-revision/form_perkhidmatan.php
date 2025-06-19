@@ -102,20 +102,32 @@
     </form>
 
     <script>
+
+        // Sanitize input to prevent XSS by escaping HTML special characters
+        function sanitizeInput(input) {
+            return input
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;")
+                .trim();
+        }
+
+        // Function to update the status label based on checkbox state
         function statusButton() {
             var button = document.getElementById("button");
             var status = document.getElementById("status");
             status.textContent = button.checked ? "Ditawarkan" : "Tidak Ditawarkan";
         }
 
-        // Bootstrap alert message at the top of the form
+        // Show Bootstrap alert at the top of the form
         function showAlert(message, type = "success") {
-            const alertBox = document.getElementById("form-alert"); // Container to show alert
+            const alertBox = document.getElementById("form-alert");
             alertBox.innerHTML = `
-          <div class="alert alert-${type} alert-dismissible fade show" role="alert">
-            ${message}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div>
+            <div class="alert alert-${type} alert-dismissible fade show" role="alert">
+              ${message}
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
         `;
         }
 
@@ -125,27 +137,37 @@
             const section = document.getElementById("Seksyen");
             const serviceName = document.getElementById("exampleInputText7");
 
-            // Validate that the service name field is not empty
+            // Validate required fields before processing
             if (!serviceName.value.trim()) {
                 showAlert("Sila masukkan nama perkhidmatan.", "danger");
                 serviceName.focus();
                 return;
             }
 
-            // Validate section selection
             if (section.value === "Sila Pilih") {
                 showAlert("Sila pilih seksyen yang sah.", "danger");
                 section.focus();
                 return;
             }
 
-        
-            // Simulate a successful form submission
-            showAlert("Maklumat perkhidmatan berjaya dihantar!", "success");
+            // Prepare sanitized form data object
+            const data = {
+                nama_perkhidmatan: sanitizeInput(serviceName.value),
+                harga_warga: sanitizeInput(document.querySelector("[name='harga_warga']").value),
+                harga_bukan_warga: sanitizeInput(document.querySelector("[name='harga_bukan_warga']").value),
+                seksyen: sanitizeInput(section.value),
+                detail: sanitizeInput(document.querySelector("[name='detail']").value),
+                status: document.getElementById("button").checked ? "Ditawarkan" : "Tidak Ditawarkan"
+            };
+
+            // Store data in localStorage (for testing/demo purposes)
+            localStorage.setItem("perkhidmatanData", JSON.stringify(data));
+
+            // Notify user of successful submission
+            showAlert("Perkhidmatan berjaya dihantar dan disimpan ke localStorage!", "success");
+            console.log("Saved to localStorage:", data);
         });
     </script>
-
-   
 </body>
 
 </html>
