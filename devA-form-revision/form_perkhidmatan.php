@@ -12,6 +12,7 @@
     <!-- Form action using module_url() was removed because the function is undefined. 
      The form is temporarily disabled for testing/experimental purposes. -->
     <form>
+        <div class="container mt-3" id="form-alert"></div>
         <div class="card">
             <div class="px-4 py-3 border-bottom">
                 <h5 class="card-title fw-semibold mb-0">Tambah Perkhidmatan</h5>
@@ -23,7 +24,8 @@
                         Perkhidmatan</label>
                     <div class="col-sm-9">
                         <input type="text" class="form-control" id="exampleInputText7" name="nama_perkhidmatan"
-                            placeholder="Sila Masukkan Nama Perkhidmatan" required />
+                            placeholder="Sila Masukkan Nama Perkhidmatan" />
+
                     </div>
                 </div>
                 <div class="mb-4 row align-items-center">
@@ -106,21 +108,44 @@
             status.textContent = button.checked ? "Ditawarkan" : "Tidak Ditawarkan";
         }
 
+        // Bootstrap alert message at the top of the form
+        function showAlert(message, type = "success") {
+            const alertBox = document.getElementById("form-alert"); // Container to show alert
+            alertBox.innerHTML = `
+          <div class="alert alert-${type} alert-dismissible fade show" role="alert">
+            ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        `;
+        }
+
         document.querySelector("form").addEventListener("submit", function (e) {
-            e.preventDefault(); // prevent real submit
+            e.preventDefault(); // prevent form from actually submitting (for testing purposes)
 
             const section = document.getElementById("Seksyen");
+            const serviceName = document.getElementById("exampleInputText7");
+
+            // Validate that the service name field is not empty
+            if (!serviceName.value.trim()) {
+                showAlert("Sila masukkan nama perkhidmatan.", "danger");
+                serviceName.focus();
+                return;
+            }
+
+            // Validate section selection
             if (section.value === "Sila Pilih") {
-                alert("Sila pilih seksyen yang sah.");
+                showAlert("Sila pilih seksyen yang sah.", "danger");
                 section.focus();
                 return;
             }
 
-            // If all required fields are filled, you can log or store
-            console.log("Validation passed! (No backend submission yet)");
+        
+            // Simulate a successful form submission
+            showAlert("Maklumat perkhidmatan berjaya dihantar!", "success");
         });
     </script>
 
+   
 </body>
 
 </html>
