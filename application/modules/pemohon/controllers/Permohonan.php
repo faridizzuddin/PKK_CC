@@ -836,11 +836,27 @@ class Permohonan extends Admin_Controller
     public function report_program()
     {
 
+        $bulan = $this->input->post('month');
+
+        if (isset($bulan)) {
+
+        }
+
+        //UNTUK STATISTIK PENGGUNAAN PERKHIDMATAN
+        $statistik_perkhidmatan = $this->Permohonan_model->get_service_stat();
+        $statistik_cenderamata = $this->Permohonan_model->get_souvenir_stat();
+
+
+
+
         $data = [
-            'title' => 'Laporan Program',
+            'title' => 'Laporan Statistik Permohonan',
+            'statistik_perkhidmatan' => $statistik_perkhidmatan,
+            'statistik_cenderamata' => $statistik_cenderamata
         ];
 
-        // var_dump($data_cenderamata);
+        // var_dump($statistik_cenderamata);
+
 
         $html = $this->load->view('permohonan/report_program', $data, TRUE);
 
@@ -853,8 +869,8 @@ class Permohonan extends Admin_Controller
 
         // Output the PDF
         $pdfFilePath = "report.pdf";
-        $this->m_pdf->pdf->Output($pdfFilePath, "D"); // PDF GENERATED IN DW
-        // $this->m_pdf->pdf->Output($pdfFilePath, "I"); PDF GENERATED IN BROWSER
+        // $this->m_pdf->pdf->Output($pdfFilePath, "D"); // PDF GENERATED IN DW
+        $this->m_pdf->pdf->Output($pdfFilePath, "I"); //PDF GENERATED IN BROWSER
     }
     /*******  968943a7-8f59-47f1-a317-6c9441ef1c7d  *******/
 
